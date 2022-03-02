@@ -167,7 +167,7 @@ struct Options::Imp::Parser {
                 "address to advertise in contract");
             out.add_options()(
                 notary_public_port_,
-                po::value<UnallocatedCString>(),
+                po::value<std::uint16_t>(),
                 "(only when creating a new notary contract) public listening "
                 "port");
             out.add_options()(
@@ -477,6 +477,11 @@ auto Options::Imp::parse(int argc, char** argv) noexcept(false) -> void
         } else if (name == Parser::default_mint_key_bytes_) {
             try {
                 default_mint_key_bytes_ = value.as<std::size_t>();
+            } catch (...) {
+            }
+        } else if (name == Parser::experimental_) {
+            try {
+                experimental_ = value.as<bool>();
             } catch (...) {
             }
         } else if (name == Parser::home_) {

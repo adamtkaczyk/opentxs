@@ -1563,10 +1563,10 @@ struct ScanListener::Imp {
     using Map = ot::UnallocatedMap<ot::OTNymID, ChainMap>;
 
     const ot::api::Session& api_;
+    Map map_;
     const ot::OTZMQListenCallback cb_;
     const ot::OTZMQSubscribeSocket socket_;
     mutable std::mutex lock_;
-    Map map_;
 
     auto cb(ot::network::zeromq::Message&& in) noexcept -> void
     {
@@ -1583,6 +1583,7 @@ struct ScanListener::Imp {
 
             return out;
         }();
+        if (!nymID) { return; }
         auto accountID = [&] {
             auto out = api_.Factory().Identifier();
             out->Assign(body.at(4).Bytes());
@@ -1591,6 +1592,7 @@ struct ScanListener::Imp {
 
             return out;
         }();
+        if (!accountID) { return; }
         const auto sub = body.at(5).as<Subchain>();
         const auto height = body.at(6).as<Height>();
         auto hash = ot::blockchain::block::Hash{body.at(7).Bytes()};
@@ -1613,6 +1615,7 @@ struct ScanListener::Imp {
 
     Imp(const ot::api::Session& api) noexcept
         : api_(api)
+        , map_()
         , cb_(Callback::Factory([&](auto&& msg) { cb(std::move(msg)); }))
         , socket_([&] {
             auto out = api_.Network().ZeroMQ().SubscribeSocket(cb_);
@@ -1624,7 +1627,6 @@ struct ScanListener::Imp {
             return out;
         }())
         , lock_()
-        , map_()
     {
     }
 };

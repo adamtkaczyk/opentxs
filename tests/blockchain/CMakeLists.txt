@@ -15,6 +15,8 @@ target_sources(opentxs-test-helpers PRIVATE "Helpers.hpp" "Helpers.cpp")
 
 add_opentx_test(unittests-opentxs-blockchain-address Test_Address.cpp)
 
+add_opentx_test(unittests-opentxs-blockchain-live Test_BlockchainLive.cpp)
+
 if(BIP32_EXPORT)
   add_opentx_test(unittests-opentxs-blockchain-api Test_BlockchainAPI.cpp)
 endif()

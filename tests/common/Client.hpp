@@ -65,6 +65,8 @@ protected:
         const ot::api::session::Notary& to) const noexcept -> bool;
     auto StartClient(int index) const noexcept
         -> const ot::api::session::Client&;
+    auto StartClient(const ot::Options& args, int index) const noexcept
+        -> const ot::api::session::Client&;
 
     virtual auto CleanupClient() noexcept -> void;
 

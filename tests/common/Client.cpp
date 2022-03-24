@@ -119,4 +119,13 @@ auto Client_fixture::StartClient(int index) const noexcept
 
     return out;
 }
+
+auto Client_fixture::StartClient(const ot::Options& args, int index) const noexcept
+    -> const ot::api::session::Client&
+{
+    const auto& out = ot_.StartClientSession(args, index);
+
+    return out;
+}
+
 }  // namespace ottest

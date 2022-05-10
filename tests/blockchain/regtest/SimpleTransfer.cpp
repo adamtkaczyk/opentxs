@@ -26,7 +26,7 @@ TEST_F(Regtest_fixture_simple, send_to_client)
     const std::string name_alice = "Alice";
     const std::string name_bob = "Bob";
 
-    Height target_height = 0, begin = 0;
+    Height begin = 0;
     const auto blocks_number = 2;
     const auto coin_to_send = 100000;
 
@@ -89,7 +89,7 @@ TEST_F(Regtest_fixture_simple, send_to_client)
 
         SendCoins(*receiver, *sender, target_height, coin_to_send);
         std::this_thread::sleep_for(std::chrono::seconds(20));
-        
+
         auto loaded_transactions = CollectTransactionsForFeeCalculations(
             *sender, send_transactions_, transactions_);
         auto fee = CalculateFee(send_transactions_, loaded_transactions);

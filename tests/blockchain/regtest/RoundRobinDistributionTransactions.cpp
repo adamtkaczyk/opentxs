@@ -130,7 +130,6 @@ TEST_F(Regtest_fixture_simple, round_robin_distribution_transactions)
         count++;
     }
 
-    ot::Sleep(std::chrono::seconds(20));
     Shutdown();
 }
 
